@@ -55,28 +55,34 @@ func generate_word_card(word:String):
 
 func word_miss():
 	hp -= 1
+	clear_window()
 	if(hp <= 0):
 		game_over()
 
-	next_card_focus()
-
 func word_finish():
 	score+=1
-
 	next_card_focus()
 
 func next_card_focus():
-	var word_card=word_card_queue.pop()
-	while word_card == null or word_card.is_done:
-		word_card=word_card_queue.pop()
+	while word_card_queue.size() > 0:
+		var word_card = word_card_queue.pop()
+		if is_instance_valid(word_card) and not word_card.is_done:
+			word_card.is_on_focus = true
+			return
 
-	word_card.is_on_focus=true
+func clear_window():
+	# 清理所有正在显示的单词卡片
+	for child in get_children():
+		if child is WordsCard:
+			child.is_done = true
+			child.queue_free()
 	
+	# 清空队列
+	while word_card_queue.size() > 0:
+		word_card_queue.pop()
 
 func game_over():
 	print("game over")
-
-
 
 func game_start():
 	while true:
@@ -90,8 +96,7 @@ func game_start():
 		await word_generation_timer.timeout
 
 func _ready():
-	hp=0
+	hp=3
 	score=0
 	load_words("res://Assets/words.txt")
 	game_start()
-	next_card_focus()

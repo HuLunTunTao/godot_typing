@@ -69,13 +69,15 @@ func _input(event):
 
 		if word.length()>0 and word[0].to_lower()==ch.to_lower():
 			word = word.substr(1, word.length() - 1)
+			if word == "":
+				is_done = true
 
 func _process(delta):
 	position.y+=moving_speed*delta
 
-	if position.y > get_viewport_rect().size.y:
+	if position.y > get_viewport_rect().size.y and not is_done:
+		is_done = true
 		word_missed.emit()
-		is_done=true
 
 
 

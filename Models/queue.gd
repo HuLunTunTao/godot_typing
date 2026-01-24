@@ -16,5 +16,13 @@ func pop():
         _head = 0
     return v
 
+func top():
+    if _head >= _data.size():
+        return null
+    return _data[_head]
+
+func size():
+    return _data.size() - _head
+
 func is_empty():
     return _head >= _data.size()
