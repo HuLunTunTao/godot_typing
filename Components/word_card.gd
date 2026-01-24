@@ -1,4 +1,4 @@
-class_name WordsCard
+class_name WordCard
 extends Node2D
 
 var word:String="hello":

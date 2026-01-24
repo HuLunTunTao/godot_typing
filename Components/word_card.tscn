@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dx3rgdidm7mfx"]
 
-[ext_resource type="Script" uid="uid://ot1n642q8bnw" path="res://Components/words_card.gd" id="1_mkq06"]
+[ext_resource type="Script" uid="uid://ot1n642q8bnw" path="res://Components/word_card.gd" id="1_mkq06"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yf15g"]
 corner_radius_top_left = 10

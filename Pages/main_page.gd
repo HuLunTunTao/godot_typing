@@ -2,7 +2,7 @@ extends Node2D
 
 var word_list:Array = []
 
-var word_card_scene:PackedScene=preload("res://Components/WordsCard.tscn")
+var word_card_scene:PackedScene=preload("res://Components/word_card.tscn")
 
 var word_card_queue: Queue = Queue.new()
 
@@ -77,7 +77,7 @@ func next_card_focus():
 func clear_window():
 	# 清理所有正在显示的单词卡片
 	for child in cards.get_children():
-		if child is WordsCard:
+		if child is WordCard:
 			child.is_done = true
 			child.queue_free()
 	
