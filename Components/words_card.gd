@@ -9,6 +9,7 @@ var word:String="hello":
 		label.text=word
 		if value=="":
 			word_finished.emit()
+			is_done=true
 
 var is_on_focus:bool=false:
 	get:
@@ -19,7 +20,10 @@ var is_on_focus:bool=false:
 
 var moving_speed:int=100
 
-var is_done:bool=false #finished或者missed了
+var is_done:bool=false: #finished获missed了
+	set(value):
+		is_done = value
+		queue_free()
 
 signal word_finished
 signal word_missed
@@ -71,6 +75,7 @@ func _process(delta):
 
 	if position.y > get_viewport_rect().size.y:
 		word_missed.emit()
+		is_done=true
 
 
 

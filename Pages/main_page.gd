@@ -37,9 +37,10 @@ func load_words(path: String):
 
 func generate_word_card(word:String):
 	var word_card = word_card_scene.instantiate()
+	add_child(word_card)
 	word_card.word = word
 	word_card.position.y = -10
-	add_child(word_card)
+	
 
 	word_card_queue.push(word_card)
 
@@ -66,7 +67,7 @@ func word_finish():
 
 func next_card_focus():
 	var word_card=word_card_queue.pop()
-	while word_card.is_done:
+	while word_card == null or word_card.is_done:
 		word_card=word_card_queue.pop()
 
 	word_card.is_on_focus=true
@@ -93,3 +94,4 @@ func _ready():
 	score=0
 	load_words("res://Assets/words.txt")
 	game_start()
+	next_card_focus()
