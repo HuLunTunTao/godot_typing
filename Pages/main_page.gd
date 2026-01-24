@@ -48,6 +48,8 @@ func generate_word_card(word:String):
 
 	
 	word_card_queue.push(word_card)
+	if word_card_queue.size()==1:
+		next_card_focus()
 
 	# 连接信号
 	word_card.connect("word_missed", Callable(self, "word_miss"))
@@ -59,6 +61,7 @@ func generate_word_card(word:String):
 	word_card.position.x = randf_range(0, screen_width - card_width)
 
 func word_miss():
+	word_card_queue.pop()
 	hp -= 1
 	if(hp <= 0):
 		game_over()
@@ -69,12 +72,13 @@ func word_miss():
 	
 
 func word_finish():
+	word_card_queue.pop()
 	score+=1
 	next_card_focus()
 
 func next_card_focus():
 	while word_card_queue.size() > 0:
-		var word_card = word_card_queue.pop()
+		var word_card = word_card_queue.top()
 		if is_instance_valid(word_card) and not word_card.is_done:
 			word_card.is_on_focus = true
 			return
@@ -94,7 +98,7 @@ func game_over():
 	var game_over_screen_instance = game_over_sceen.instantiate()
 	add_child(game_over_screen_instance)
 	
-	
+
 	var screen_size = get_viewport_rect().size
 	game_over_screen_instance.position = (screen_size - game_over_screen_instance.size) / 2
 	
