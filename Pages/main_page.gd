@@ -11,8 +11,8 @@ var word_card_queue: Queue = Queue.new()
 @onready var word_generation_timer: Timer = $WordGenerationTimer
 
 
-var time_delta_min:float=0.5
-var time_delta_max:float=1.5
+var time_delta_min:float=1
+var time_delta_max:float=3
 
 var hp:int=3:
 	get:
