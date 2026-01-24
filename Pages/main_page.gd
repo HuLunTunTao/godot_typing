@@ -9,7 +9,7 @@ var word_card_queue: Queue = Queue.new()
 
 @onready var hp_label: Label = $HpLabel
 @onready var word_generation_timer: Timer = $WordGenerationTimer
-
+@onready var cards: Node2D = $Cards
 
 var time_delta_min:float=1
 var time_delta_max:float=3
@@ -37,7 +37,7 @@ func load_words(path: String):
 
 func generate_word_card(word:String):
 	var word_card = word_card_scene.instantiate()
-	add_child(word_card)
+	cards.add_child(word_card)
 	word_card.word = word
 	word_card.position.y = -10
 	
@@ -58,6 +58,10 @@ func word_miss():
 	clear_window()
 	if(hp <= 0):
 		game_over()
+	else:
+		await word_generation_timer.timeout
+		next_card_focus()
+	
 
 func word_finish():
 	score+=1
@@ -72,7 +76,7 @@ func next_card_focus():
 
 func clear_window():
 	# 清理所有正在显示的单词卡片
-	for child in get_children():
+	for child in cards.get_children():
 		if child is WordsCard:
 			child.is_done = true
 			child.queue_free()
@@ -100,3 +104,4 @@ func _ready():
 	score=0
 	load_words("res://Assets/words.txt")
 	game_start()
+	next_card_focus()
