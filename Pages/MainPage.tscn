@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://mwyk5qauex4f"]
+
+[ext_resource type="Script" uid="uid://b8b77fx5p3x2a" path="res://Pages/main_page.gd" id="1_5hh3g"]
+
+[node name="MainPage" type="Node2D"]
+script = ExtResource("1_5hh3g")
+
+[node name="WordGenerationTimer" type="Timer" parent="."]
+
+[node name="HpLabel" type="Label" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 994.0
+offset_right = 1150.0
+offset_bottom = 91.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 66
+text = "hp: 3"
+
+[node name="SacoreLabel" type="Label" parent="."]
+offset_right = 249.0
+offset_bottom = 91.0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 66
+text = "Score: 0"
