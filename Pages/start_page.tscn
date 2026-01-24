@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://dgyt44lhshumj"]
+[gd_scene load_steps=2 format=3 uid="uid://dgyt44lhshumj"]
+
+[ext_resource type="Script" uid="uid://d2yg5xmgcaw0e" path="res://Pages/start_page.gd" id="1_ica2m"]
 
 [node name="StartPage" type="Control"]
 layout_mode = 3
@@ -7,6 +9,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_ica2m")
 
 [node name="StartButton" type="Button" parent="."]
 layout_mode = 1
@@ -15,10 +18,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -66.5
-offset_top = -29.0
-offset_right = 66.5
-offset_bottom = 29.0
+offset_left = -124.97412
+offset_top = -54.5
+offset_right = 124.97412
+offset_bottom = 54.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_font_sizes/font_size = 76
 text = "start"
+
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]

@@ -3,6 +3,7 @@ extends Node2D
 var word_list:Array = []
 
 var word_card_scene:PackedScene=preload("res://Components/word_card.tscn")
+var game_over_sceen:PackedScene=preload("res://Components/game_over_sceen.tscn")
 
 var word_card_queue: Queue = Queue.new()
 
@@ -10,6 +11,8 @@ var word_card_queue: Queue = Queue.new()
 @onready var hp_label: Label = $HpLabel
 @onready var word_generation_timer: Timer = $WordGenerationTimer
 @onready var cards: Node2D = $Cards
+
+var is_gaming_going:bool=true
 
 var time_delta_min:float=1
 var time_delta_max:float=3
@@ -38,10 +41,12 @@ func load_words(path: String):
 func generate_word_card(word:String):
 	var word_card = word_card_scene.instantiate()
 	cards.add_child(word_card)
+	word_card.is_game_going_check=func(): return is_gaming_going
 	word_card.word = word
 	word_card.position.y = -10
 	
 
+	
 	word_card_queue.push(word_card)
 
 	# 连接信号
@@ -55,10 +60,10 @@ func generate_word_card(word:String):
 
 func word_miss():
 	hp -= 1
-	clear_window()
 	if(hp <= 0):
 		game_over()
 	else:
+		clear_window()
 		await word_generation_timer.timeout
 		next_card_focus()
 	
@@ -86,10 +91,19 @@ func clear_window():
 		word_card_queue.pop()
 
 func game_over():
-	print("game over")
+	var game_over_screen_instance = game_over_sceen.instantiate()
+	add_child(game_over_screen_instance)
+	
+	
+	var screen_size = get_viewport_rect().size
+	game_over_screen_instance.position = (screen_size - game_over_screen_instance.size) / 2
+	
+	game_over_screen_instance.score = score
+	game_over_screen_instance.visible = true
+	is_gaming_going = false
 
 func game_start():
-	while true:
+	while is_gaming_going:
 		if word_list.size() > 0:
 			generate_word_card(word_list.pick_random())
 
@@ -100,7 +114,7 @@ func game_start():
 		await word_generation_timer.timeout
 
 func _ready():
-	hp=3
+	hp=1
 	score=0
 	load_words("res://Assets/words.txt")
 	game_start()

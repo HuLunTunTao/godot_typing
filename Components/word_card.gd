@@ -25,6 +25,8 @@ var is_done:bool=false: #finished获missed了
 		is_done = value
 		queue_free()
 
+var is_game_going_check:Callable
+
 signal word_finished
 signal word_missed
 
@@ -73,6 +75,7 @@ func _input(event):
 				is_done = true
 
 func _process(delta):
+	if not is_game_going_check.call(): return
 	position.y+=moving_speed*delta
 
 	if position.y > get_viewport_rect().size.y and not is_done:
