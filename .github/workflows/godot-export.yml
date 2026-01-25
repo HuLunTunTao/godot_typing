@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+    tags:
+      - "v*"
   workflow_dispatch:
 
 permissions:
@@ -140,3 +142,35 @@ jobs:
         with:
           name: mac
           path: build/mac
+
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+
+    # 等所有平台导出完成
+    needs:
+      - export-windows
+      - export-linux
+      - export-mac
+      - export-web
+
+    # 只在 tag 时发布
+    if: startsWith(github.ref, 'refs/tags/')
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+
+      - name: Show files
+        run: ls -R dist
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/windows/**
+            dist/linux/**
+            dist/mac/**
+            dist/web/**
