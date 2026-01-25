@@ -159,6 +159,21 @@ jobs:
         with:
           path: dist
 
+      - name: Zip Windows build
+        run: |
+          cd dist/windows
+          zip -r ../../godot-typing-windows-${{ github.ref_name }}.zip .
+
+      - name: Zip Linux build
+        run: |
+          cd dist/linux
+          zip -r ../../godot-typing-linux-${{ github.ref_name }}.zip .
+
+      - name: Zip macOS build
+        run: |
+          cd dist/mac
+          zip -r ../../godot-typing-mac-${{ github.ref_name }}.zip .
+
       - name: Zip web build
         run: |
           cd dist/web
@@ -168,7 +183,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            dist/windows/**
-            dist/linux/**
-            dist/mac/**
+            godot-typing-windows-${{ github.ref_name }}.zip
+            godot-typing-linux-${{ github.ref_name }}.zip
+            godot-typing-mac-${{ github.ref_name }}.zip
             godot-typing-web-${{ github.ref_name }}.zip
