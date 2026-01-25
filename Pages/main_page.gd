@@ -32,11 +32,11 @@ var score:int=0:
 		$SacoreLabel.text = "Score: %d" % score
 
 func load_words(path: String):
-	if FileAccess.file_exists(path):
-		var file = FileAccess.open(path, FileAccess.READ)
-		var content = file.get_as_text()
-		word_list = Array(content.split("\n", false))
-		file.close()
+	var res := ResourceLoader.load(path)
+	if res is JSON:
+		word_list = res.data
+	else:
+		push_error("Failed to load words JSON or dynamic cast failed")
 
 func generate_word_card(word:String):
 	var word_card = word_card_scene.instantiate()
@@ -120,6 +120,6 @@ func game_start():
 func _ready():
 	hp=1
 	score=0
-	load_words("res://Assets/words.txt")
+	load_words("res://Assets/words.json")
 	game_start()
 	next_card_focus()
