@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 var word_list:Array = []
 
@@ -7,8 +7,8 @@ var game_over_sceen:PackedScene=preload("res://Components/game_over_sceen.tscn")
 
 var word_card_queue: Queue = Queue.new()
 
-
-@onready var hp_label: Label = $HpLabel
+@onready var hp_label: Label = $CanvasLayer/HpLabel
+@onready var score_label: Label = $CanvasLayer/ScoreLabel
 @onready var word_generation_timer: Timer = $WordGenerationTimer
 @onready var cards: Node2D = $Cards
 
@@ -29,7 +29,7 @@ var score:int=0:
 		return score
 	set(value):
 		score = value
-		$SacoreLabel.text = "Score: %d" % score
+		score_label.text = "Score: %d" % score
 
 func load_words(path: String):
 	var res := ResourceLoader.load(path)
