@@ -118,7 +118,7 @@ func game_start():
 		await word_generation_timer.timeout
 
 func _ready():
-	hp=1
+	hp=hp
 	score=0
 	load_words("res://Assets/words.json")
 	game_start()
