@@ -58,6 +58,9 @@ var colors: Array[Color] = [
 @onready var big_letter_label: Label = $PanelContainer/BigLetterLabel
 @onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 @onready var audio_stream_players: Node = $AudioStreamPlayers
+@onready var clean_timer: Timer = $CleanTimer
+
+var sound_effect_max_length:float
 
 func random_color():
 	if colors and colors.size() > 0:
@@ -159,12 +162,16 @@ func _process(delta):
 		is_done = true
 		word_missed.emit()
 
+var is_waiting_for_cleaning:bool=false
 func clean():
-	for player:AudioStreamPlayer in audio_stream_players.get_children():
-		if is_instance_valid(player) and player.is_playing():
-			await player.finished
-	
+	if is_waiting_for_cleaning:return
+	is_waiting_for_cleaning = true
+	clean_timer.start()
+	await clean_timer.timeout
+
 	queue_free()
 
 func _ready() -> void:
+	sound_effect_max_length=max(positive_sound_effect.get_length(), negative_sound_effect.get_length())
+	clean_timer.wait_time=sound_effect_max_length+0.1
 	random_color()
