@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dx3rgdidm7mfx"]
+[gd_scene load_steps=5 format=3 uid="uid://dx3rgdidm7mfx"]
 
 [ext_resource type="Script" uid="uid://ot1n642q8bnw" path="res://Components/word_card.gd" id="1_mkq06"]
+[ext_resource type="AudioStream" uid="uid://bdm26xs1ju7nw" path="res://Assets/Sounds/wandering_door_games/ding_01.ogg" id="2_c3xrn"]
+[ext_resource type="AudioStream" uid="uid://cpi4e18v255vk" path="res://Assets/Sounds/kenney/phaserUp1.mp3" id="3_0aih5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yf15g"]
 corner_radius_top_left = 10
@@ -10,6 +12,8 @@ corner_radius_bottom_left = 10
 
 [node name="WordsCard" type="Node2D"]
 script = ExtResource("1_mkq06")
+positive_sound_effect = ExtResource("2_c3xrn")
+negative_sound_effect = ExtResource("3_0aih5")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 offset_right = 233.0
@@ -26,3 +30,8 @@ text = "hello"
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 48
+
+[node name="AudioStreamPlayers" type="Node" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_c3xrn")

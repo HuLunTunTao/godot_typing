@@ -24,7 +24,8 @@ var moving_speed:int=100
 var is_done:bool=false: #finished获missed了
 	set(value):
 		is_done = value
-		queue_free()
+		visible=false
+		clean()
 
 var is_animating:bool=false  # 动画期间标志
 
@@ -49,10 +50,14 @@ var colors: Array[Color] = [
 	Color(0.75, 0.10, 0.40)  # 深玫瑰粉
 ]
 
+@export var positive_sound_effect: AudioStream
+@export var negative_sound_effect: AudioStream
 
 @onready var panel_container: PanelContainer = $PanelContainer
 @onready var label: Label = $PanelContainer/Label
 @onready var big_letter_label: Label = $PanelContainer/BigLetterLabel
+@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
+@onready var audio_stream_players: Node = $AudioStreamPlayers
 
 func random_color():
 	if colors and colors.size() > 0:
@@ -123,6 +128,14 @@ func play_letter_pop_animation():
 		temp_node.queue_free()
 	)
 
+func play_effect(is_positive: bool):
+	var tem_player_node=audio_stream_player.duplicate()
+	tem_player_node.stream=positive_sound_effect if is_positive else negative_sound_effect
+	audio_stream_players.add_child(tem_player_node)
+	tem_player_node.play()
+	await tem_player_node.finished
+	tem_player_node.queue_free()
+
 func _input(event):
 	if not is_on_focus: return
 
@@ -130,9 +143,13 @@ func _input(event):
 		var keycode=event.keycode
 		var ch=char(keycode)
 
-		if word.length()>0 and word[0].to_lower()==ch.to_lower():
-			# 播放首字母消失动画（动画结束后会自动删除首字母）
-			play_letter_pop_animation()
+		if word.length()>0:
+			if word[0].to_lower()==ch.to_lower():
+				# 播放首字母消失动画（动画结束后会自动删除首字母）
+				play_effect(true)
+				play_letter_pop_animation()
+			else:
+				play_effect(false)
 
 func _process(delta):
 	if not is_game_going_check.call(): return
@@ -142,7 +159,12 @@ func _process(delta):
 		is_done = true
 		word_missed.emit()
 
-
+func clean():
+	for player:AudioStreamPlayer in audio_stream_players.get_children():
+		if is_instance_valid(player) and player.is_playing():
+			await player.finished
+	
+	queue_free()
 
 func _ready() -> void:
 	random_color()

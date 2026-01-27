@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://mwyk5qauex4f"]
+[gd_scene load_steps=3 format=3 uid="uid://mwyk5qauex4f"]
 
 [ext_resource type="Script" uid="uid://b8b77fx5p3x2a" path="res://Pages/main_page.gd" id="1_7uk2u"]
+[ext_resource type="AudioStream" uid="uid://ml4ns8y0p3r" path="res://Assets/Sounds/lokif/negative_2.wav" id="2_i0y0y"]
 
 [node name="MainPage" type="Control"]
 layout_mode = 3
@@ -32,3 +33,6 @@ size_flags_horizontal = 8
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 66
 text = "Score: 0"
+
+[node name="NegativeAudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_i0y0y")

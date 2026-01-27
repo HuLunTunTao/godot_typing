@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dgyt44lhshumj"]
+[gd_scene load_steps=3 format=3 uid="uid://dgyt44lhshumj"]
 
 [ext_resource type="Script" uid="uid://d2yg5xmgcaw0e" path="res://Pages/start_page.gd" id="1_ica2m"]
+[ext_resource type="AudioStream" uid="uid://brtifvpp3667q" path="res://Assets/Sounds/kenney/tone1.mp3" id="2_5dnmh"]
 
 [node name="StartPage" type="Control"]
 layout_mode = 3
@@ -26,5 +27,8 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 76
 text = "start"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_5dnmh")
 
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]

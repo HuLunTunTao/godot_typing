@@ -11,6 +11,7 @@ var word_card_queue: Queue = Queue.new()
 @onready var score_label: Label = $CanvasLayer/ScoreLabel
 @onready var word_generation_timer: Timer = $WordGenerationTimer
 @onready var cards: Node2D = $Cards
+@onready var negative_audio_stream_player: AudioStreamPlayer = $NegativeAudioStreamPlayer
 
 var is_gaming_going:bool=true
 
@@ -66,6 +67,7 @@ func word_miss():
 	if(hp <= 0):
 		game_over()
 	else:
+		play_negative_sound()
 		clear_window()
 		await word_generation_timer.timeout
 		next_card_focus()
@@ -88,7 +90,7 @@ func clear_window():
 	for child in cards.get_children():
 		if child is WordCard:
 			child.is_done = true
-			child.queue_free()
+			child.clean()
 	
 	# 清空队列
 	while word_card_queue.size() > 0:
@@ -116,6 +118,9 @@ func game_start():
 		word_generation_timer.start()
 
 		await word_generation_timer.timeout
+
+func play_negative_sound():
+	negative_audio_stream_player.play()
 
 func _ready():
 	hp=hp
