@@ -6,10 +6,11 @@ var word:String="hello":
 		return word
 	set(value):
 		word = value
-		label.text=word
+		change_label_word(word)
 		if value=="":
 			word_finished.emit()
 			is_done=true
+		
 
 var is_on_focus:bool=false:
 	get:
@@ -49,6 +50,7 @@ var colors: Array[Color] = [
 
 @onready var panel_container: PanelContainer = $PanelContainer
 @onready var label: Label = $PanelContainer/Label
+@onready var big_letter_label: Label = $PanelContainer/BigLetterLabel
 
 func random_color():
 	if colors and colors.size() > 0:
@@ -62,6 +64,43 @@ func highlight():
 	style_box.border_color = Color.WHITE
 	panel_container.add_theme_stylebox_override("panel", style_box)
 
+func change_label_word(new_word: String):
+	label.text = new_word
+	# 更新首字母显示
+	if new_word.length() > 0:
+		big_letter_label.text = new_word[0]
+		big_letter_label.modulate.a = 0  # 默认隐藏
+	else:
+		big_letter_label.text = ""
+
+func play_letter_pop_animation():
+	if word.length() == 0:
+		return
+	
+	# 创建动画，首字母放大后消失
+	var tween = create_tween()
+	tween.set_parallel(true)
+	
+	var temp_label_node = big_letter_label.duplicate()
+	panel_container.add_child(temp_label_node)
+	
+	# 显示临时label，显示当前首字母
+	temp_label_node.text = word[0]
+	temp_label_node.modulate.a = 1.0
+	temp_label_node.scale = Vector2.ONE
+	
+	# 快速放大
+	tween.tween_property(temp_label_node, "scale", Vector2(2.5, 2.5), 0.15)
+	tween.tween_property(temp_label_node, "modulate:a", 1.0, 0.1)
+	
+	# 然后快速缩小并消失
+	tween.chain().set_parallel(true)
+	tween.tween_property(temp_label_node, "scale", Vector2(0.3, 0.3), 0.15)
+	tween.tween_property(temp_label_node, "modulate:a", 0.0, 0.15)
+	
+	# 动画完成后释放节点
+	tween.finished.connect(func(): temp_label_node.queue_free())
+
 func _input(event):
 	if not is_on_focus: return
 
@@ -70,6 +109,9 @@ func _input(event):
 		var ch=char(keycode)
 
 		if word.length()>0 and word[0].to_lower()==ch.to_lower():
+			# 播放首字母消失动画
+			play_letter_pop_animation()
+			# 移除首字母
 			word = word.substr(1, word.length() - 1)
 			if word == "":
 				is_done = true
