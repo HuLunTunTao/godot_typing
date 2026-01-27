@@ -26,6 +26,8 @@ var is_done:bool=false: #finished获missed了
 		is_done = value
 		queue_free()
 
+var is_animating:bool=false  # 动画期间标志
+
 var is_game_going_check:Callable
 
 signal word_finished
@@ -65,10 +67,14 @@ func highlight():
 	panel_container.add_theme_stylebox_override("panel", style_box)
 
 func change_label_word(new_word: String):
+	if is_animating:
+		return  # 动画期间不更新
+	
 	label.text = new_word
-	# 更新首字母显示
+	# 更新首字母显示 - 首字母+其余空格，保持单词长度
 	if new_word.length() > 0:
-		big_letter_label.text = new_word[0]
+		var spaces = " ".repeat(new_word.length() - 1)
+		big_letter_label.text = new_word[0] + spaces
 		big_letter_label.modulate.a = 0  # 默认隐藏
 	else:
 		big_letter_label.text = ""
@@ -77,29 +83,45 @@ func play_letter_pop_animation():
 	if word.length() == 0:
 		return
 	
+	# 保存首字母和剩余字母
+	var first_letter = word[0]
+	var remaining = word.substr(1)
+	
+	# 创建临时节点用于动画
+	var temp_node = big_letter_label.duplicate()
+	panel_container.add_child(temp_node)
+	
+	# 临时节点显示：首字母+空格（保持原位置）
+	var spaces = " ".repeat(word.length() - 1)
+	temp_node.text = first_letter + spaces
+	temp_node.modulate.a = 1.0
+	temp_node.scale = Vector2.ONE
+	
+	# 将label的首字母替换为空格，保持位置
+	label.text = " " + remaining
+	
+	# 立即修改word，不阻滞用户输入
+	is_animating = true
+	word = remaining
+	is_animating = false
+	
 	# 创建动画，首字母放大后消失
 	var tween = create_tween()
 	tween.set_parallel(true)
 	
-	var temp_label_node = big_letter_label.duplicate()
-	panel_container.add_child(temp_label_node)
-	
-	# 显示临时label，显示当前首字母
-	temp_label_node.text = word[0]
-	temp_label_node.modulate.a = 1.0
-	temp_label_node.scale = Vector2.ONE
-	
 	# 快速放大
-	tween.tween_property(temp_label_node, "scale", Vector2(2.5, 2.5), 0.15)
-	tween.tween_property(temp_label_node, "modulate:a", 1.0, 0.1)
+	tween.tween_property(temp_node, "scale", Vector2(2, 2), 0.25)
+	tween.tween_property(temp_node, "modulate:a", 1.0, 0.25)
 	
 	# 然后快速缩小并消失
 	tween.chain().set_parallel(true)
-	tween.tween_property(temp_label_node, "scale", Vector2(0.3, 0.3), 0.15)
-	tween.tween_property(temp_label_node, "modulate:a", 0.0, 0.15)
+	tween.tween_property(temp_node, "scale", Vector2(0.3, 0.3), 0.1)
+	tween.tween_property(temp_node, "modulate:a", 0.0, 0.1)
 	
-	# 动画完成后释放节点
-	tween.finished.connect(func(): temp_label_node.queue_free())
+	# 动画完成后清理
+	tween.finished.connect(func():
+		temp_node.queue_free()
+	)
 
 func _input(event):
 	if not is_on_focus: return
@@ -109,12 +131,8 @@ func _input(event):
 		var ch=char(keycode)
 
 		if word.length()>0 and word[0].to_lower()==ch.to_lower():
-			# 播放首字母消失动画
+			# 播放首字母消失动画（动画结束后会自动删除首字母）
 			play_letter_pop_animation()
-			# 移除首字母
-			word = word.substr(1, word.length() - 1)
-			if word == "":
-				is_done = true
 
 func _process(delta):
 	if not is_game_going_check.call(): return
