@@ -3,7 +3,7 @@ extends Control
 var word_list:Array = []
 
 var word_card_scene:PackedScene=preload("res://Components/word_card.tscn")
-var game_over_sceen:PackedScene=preload("res://Components/game_over_sceen.tscn")
+var game_over_scene:PackedScene=preload("res://Components/game_over_scene.tscn")
 
 var word_card_queue: Queue = Queue.new()
 
@@ -97,7 +97,7 @@ func clear_window():
 		word_card_queue.pop()
 
 func game_over():
-	var game_over_screen_instance = game_over_sceen.instantiate()
+	var game_over_screen_instance = game_over_scene.instantiate()
 	add_child(game_over_screen_instance)
 	
 

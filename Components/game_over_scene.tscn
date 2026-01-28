@@ -1,37 +1,37 @@
-[gd_scene load_steps=2 format=3 uid="uid://cuhdsyqb0ej3"]
+[gd_scene format=3 uid="uid://cuhdsyqb0ej3"]
 
-[ext_resource type="Script" uid="uid://bmhjaiq77v14d" path="res://Components/game_over_sceen.gd" id="1_ici88"]
+[ext_resource type="Script" uid="uid://bmhjaiq77v14d" path="res://Components/game_over_scene.gd" id="1_f2a1b"]
 
-[node name="GameOverSceen" type="Control"]
+[node name="GameOverSceen" type="Control" unique_id=897672955]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 914.0
 offset_bottom = 476.0
-script = ExtResource("1_ici88")
+script = ExtResource("1_f2a1b")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1872153464]
 visible = false
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Control" type="Control" parent="VBoxContainer"]
+[node name="Control" type="Control" parent="VBoxContainer" unique_id=858139652]
 layout_mode = 2
 
-[node name="NameLabel" type="Label" parent="VBoxContainer/Control"]
+[node name="NameLabel" type="Label" parent="VBoxContainer/Control" unique_id=937716209]
 layout_mode = 0
 offset_right = 44.0
 offset_bottom = 23.0
 text = "name"
 
-[node name="ScoreLabel" type="Label" parent="VBoxContainer/Control"]
+[node name="ScoreLabel" type="Label" parent="VBoxContainer/Control" unique_id=919883851]
 layout_mode = 0
 offset_left = 86.0
 offset_right = 130.0
 offset_bottom = 23.0
 text = "name"
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1417110594]
 custom_minimum_size = Vector2(3.51, 29.89)
 layout_mode = 1
 anchors_preset = 8
@@ -49,7 +49,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 color = Color(0.5158398, 0.43830633, 2.8878452e-07, 1)
 
-[node name="Label" type="Label" parent="ColorRect"]
+[node name="Label" type="Label" parent="ColorRect" unique_id=1478141144]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -66,7 +66,7 @@ theme_override_font_sizes/font_size = 146
 text = "GameOver
 Score: 50"
 
-[node name="BackStartButton" type="Button" parent="ColorRect"]
+[node name="BackStartButton" type="Button" parent="ColorRect" unique_id=1488024191]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
