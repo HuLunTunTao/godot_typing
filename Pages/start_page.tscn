@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://dgyt44lhshumj"]
+[gd_scene format=3 uid="uid://dgyt44lhshumj"]
 
 [ext_resource type="Script" uid="uid://d2yg5xmgcaw0e" path="res://Pages/start_page.gd" id="1_ica2m"]
 [ext_resource type="AudioStream" uid="uid://brtifvpp3667q" path="res://Assets/Sounds/kenney/tone1.mp3" id="2_5dnmh"]
+[ext_resource type="PackedScene" uid="uid://bfn6p8608nfiv" path="res://Components/background.tscn" id="3_n0jum"]
 
-[node name="StartPage" type="Control"]
+[node name="StartPage" type="Control" unique_id=1941889474]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,7 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ica2m")
 
-[node name="StartButton" type="Button" parent="."]
+[node name="StartButton" type="Button" parent="." unique_id=90467086]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -28,7 +29,10 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 76
 text = "start"
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1834094831]
 stream = ExtResource("2_5dnmh")
+
+[node name="Background" parent="." unique_id=467698517 instance=ExtResource("3_n0jum")]
+layer = -1
 
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]

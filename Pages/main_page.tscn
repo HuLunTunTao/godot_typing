@@ -1,28 +1,31 @@
-[gd_scene load_steps=3 format=3 uid="uid://mwyk5qauex4f"]
+[gd_scene format=3 uid="uid://mwyk5qauex4f"]
 
 [ext_resource type="Script" uid="uid://b8b77fx5p3x2a" path="res://Pages/main_page.gd" id="1_7uk2u"]
 [ext_resource type="AudioStream" uid="uid://ml4ns8y0p3r" path="res://Assets/Sounds/lokif/negative_2.wav" id="2_i0y0y"]
+[ext_resource type="PackedScene" uid="uid://bfn6p8608nfiv" path="res://Components/background.tscn" id="3_iiqc3"]
 
-[node name="MainPage" type="Control"]
+[node name="MainPage" type="Control" unique_id=25933473]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_7uk2u")
 
-[node name="WordGenerationTimer" type="Timer" parent="."]
+[node name="WordGenerationTimer" type="Timer" parent="." unique_id=963567921]
 
-[node name="Cards" type="Node2D" parent="."]
+[node name="Cards" type="Node2D" parent="." unique_id=2074334227]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=362609061]
 
-[node name="HpLabel" type="Label" parent="CanvasLayer"]
+[node name="HpLabel" type="Label" parent="CanvasLayer" unique_id=1649680569]
 offset_right = 156.0
 offset_bottom = 91.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
+theme_override_colors/font_outline_color = Color(0.7165318, 0.81224906, 0.47413713, 1)
+theme_override_constants/outline_size = 25
 theme_override_font_sizes/font_size = 66
 text = "hp: 3"
 
-[node name="ScoreLabel" type="Label" parent="CanvasLayer"]
+[node name="ScoreLabel" type="Label" parent="CanvasLayer" unique_id=1458281129]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -31,8 +34,13 @@ offset_bottom = 91.0
 grow_horizontal = 0
 size_flags_horizontal = 8
 size_flags_vertical = 0
+theme_override_colors/font_outline_color = Color(0.7165318, 0.81224906, 0.47413713, 1)
+theme_override_constants/outline_size = 25
 theme_override_font_sizes/font_size = 66
 text = "Score: 0"
 
-[node name="NegativeAudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="NegativeAudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1968402725]
 stream = ExtResource("2_i0y0y")
+
+[node name="Background" parent="." unique_id=467698517 instance=ExtResource("3_iiqc3")]
+layer = -1

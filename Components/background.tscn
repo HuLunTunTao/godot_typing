@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://bfn6p8608nfiv"]
+
+[ext_resource type="Shader" uid="uid://dk0gfcvkiycq3" path="res://Shaders/background.gdshader" id="1_vk2ms"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vk2ms"]
+shader = ExtResource("1_vk2ms")
+shader_parameter/color_top = Color(0.7446616, 0.9974684, 0.8736829, 1)
+shader_parameter/color_middle = Color(0.2652903, 0.8379432, 0.77750945, 1)
+shader_parameter/color_bottom = Color(0.343986, 0.67114526, 0.4902212, 1)
+shader_parameter/noise_strength = 0.05
+shader_parameter/noise_scale = 12.31
+shader_parameter/time_speed = 1.5899999999999999
+
+[node name="Background" type="CanvasLayer" unique_id=467698517]
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1609967421]
+material = SubResource("ShaderMaterial_vk2ms")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
