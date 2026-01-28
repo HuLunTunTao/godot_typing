@@ -137,10 +137,11 @@ func _input(event):
 	if not is_on_focus: return
 
 	if event is InputEventKey and event.pressed and not event.echo:
-		var keycode=event.keycode
-		var ch=char(keycode)
+		var keycode=event.unicode
+		
+		if event.unicode != 0 and word.length()>0:
+			var ch=char(keycode)
 
-		if word.length()>0:
 			if word[0].to_lower()==ch.to_lower():
 				# 播放首字母消失动画（动画结束后会自动删除首字母）
 				input_correct.emit()
