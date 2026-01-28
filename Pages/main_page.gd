@@ -5,13 +5,17 @@ var word_list:Array = []
 var word_card_scene:PackedScene=preload("res://Components/word_card.tscn")
 var game_over_scene:PackedScene=preload("res://Components/game_over_scene.tscn")
 
-var word_card_queue: Queue = Queue.new()
+@export var positive_sound_effect: AudioStream
+@export var negative_sound_effect: AudioStream
 
 @onready var hp_label: Label = $CanvasLayer/HpLabel
 @onready var score_label: Label = $CanvasLayer/ScoreLabel
 @onready var word_generation_timer: Timer = $WordGenerationTimer
 @onready var cards: Node2D = $Cards
-@onready var negative_audio_stream_player: AudioStreamPlayer = $NegativeAudioStreamPlayer
+@onready var clear_player: AudioStreamPlayer = $AudioStreamPlayers/ClearPlayer
+@onready var response_player: AudioStreamPlayer = $AudioStreamPlayers/ResponsePlayer
+
+var word_card_queue: Queue = Queue.new()
 
 var is_gaming_going:bool=true
 
@@ -45,7 +49,8 @@ func generate_word_card(word:String):
 	word_card.is_game_going_check=func(): return is_gaming_going
 	word_card.word = word
 	word_card.position.y = -10
-	
+	word_card.input_correct.connect(play_word_card_response_sound.bind(true))
+	word_card.input_wrong.connect(play_word_card_response_sound.bind(false))
 
 	
 	word_card_queue.push(word_card)
@@ -67,7 +72,7 @@ func word_miss():
 	if(hp <= 0):
 		game_over()
 	else:
-		play_negative_sound()
+		play_word_card_clear_sound()
 		clear_window()
 		await word_generation_timer.timeout
 		next_card_focus()
@@ -119,8 +124,15 @@ func game_start():
 
 		await word_generation_timer.timeout
 
-func play_negative_sound():
-	negative_audio_stream_player.play()
+func play_word_card_clear_sound():
+	clear_player.play()
+
+func play_word_card_response_sound(positive:bool):
+	if positive:
+		response_player.stream = positive_sound_effect
+	else:
+		response_player.stream = negative_sound_effect
+	response_player.play()
 
 func _ready():
 	hp=hp

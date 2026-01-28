@@ -2,12 +2,16 @@
 
 [ext_resource type="Script" uid="uid://b8b77fx5p3x2a" path="res://Pages/main_page.gd" id="1_7uk2u"]
 [ext_resource type="AudioStream" uid="uid://ml4ns8y0p3r" path="res://Assets/Sounds/lokif/negative_2.wav" id="2_i0y0y"]
+[ext_resource type="AudioStream" uid="uid://bdm26xs1ju7nw" path="res://Assets/Sounds/wandering_door_games/ding_01.ogg" id="2_t4cfe"]
+[ext_resource type="AudioStream" uid="uid://cpi4e18v255vk" path="res://Assets/Sounds/kenney/phaserUp1.mp3" id="3_6cyye"]
 [ext_resource type="PackedScene" uid="uid://bfn6p8608nfiv" path="res://Components/background.tscn" id="3_iiqc3"]
 
 [node name="MainPage" type="Control" unique_id=25933473]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_7uk2u")
+positive_sound_effect = ExtResource("2_t4cfe")
+negative_sound_effect = ExtResource("3_6cyye")
 
 [node name="WordGenerationTimer" type="Timer" parent="." unique_id=963567921]
 
@@ -39,8 +43,14 @@ theme_override_constants/outline_size = 25
 theme_override_font_sizes/font_size = 66
 text = "Score: 0"
 
-[node name="NegativeAudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1968402725]
-stream = ExtResource("2_i0y0y")
-
 [node name="Background" parent="." unique_id=467698517 instance=ExtResource("3_iiqc3")]
 layer = -1
+
+[node name="AudioStreamPlayers" type="Node" parent="." unique_id=231243176]
+
+[node name="ClearPlayer" type="AudioStreamPlayer" parent="AudioStreamPlayers" unique_id=1968402725]
+stream = ExtResource("2_i0y0y")
+max_polyphony = 5
+
+[node name="ResponsePlayer" type="AudioStreamPlayer" parent="AudioStreamPlayers" unique_id=1565859027]
+max_polyphony = 15

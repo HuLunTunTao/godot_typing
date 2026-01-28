@@ -31,9 +31,8 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 48
 
-[node name="AudioStreamPlayers" type="Node" parent="." unique_id=1045529863]
-
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=667169978]
 stream = ExtResource("2_c3xrn")
+max_polyphony = 8
 
 [node name="CleanTimer" type="Timer" parent="." unique_id=584770797]
